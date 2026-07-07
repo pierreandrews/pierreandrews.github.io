@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pierre Andrews</title>
+<link rel="icon" type="image/svg+xml" href="bob.svg">
+<meta name="description" content="Pierre Andrews — PhD Candidate, LEMMA &amp; Rexecode, Université Paris Panthéon-Assas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F0E2;            /* fond chaud, validé */
+  --warm:#EFE6D1;          /* barre latérale, un cran plus chaud */
+  --ink:#1A1813;
+  --ink-soft:rgba(26,24,19,.60);
+  --ink-faint:rgba(26,24,19,.40);
+  --blue:#1F2BD6;
+  --coral:#FF5A36;
+  --lime:#B6D23A;
+  --line:rgba(26,24,19,.13);
+  --serif:'Andale Mono','Space Mono',Georgia,monospace;
+  --display:'Space Mono',system-ui,monospace;
+  --mono:'Space Mono','DejaVu Sans Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+::selection{background:var(--coral);color:#fff}
+
+#site{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+@media(max-width:820px){#site{grid-template-columns:1fr}}
+
+/* ---- MENU LATÉRAL : nom en haut à gauche + navigation ---- */
+.side{position:sticky;top:0;align-self:start;height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-start;padding:44px 30px;border-right:3px solid var(--blue);background:var(--warm)}
+@media(max-width:820px){.side{position:static;height:auto;border-right:none;border-bottom:3px solid var(--blue);padding:32px 26px 22px;background:var(--warm)}}
+.brand{font-family:var(--display);font-weight:700;font-size:27px;line-height:1.02;letter-spacing:-.02em;
+  text-decoration:none;color:var(--ink);margin-bottom:38px;display:block}
+.brand:hover{color:var(--coral)}
+.side-sep{border:none;height:3px;background:var(--blue);border-radius:2px;margin:0 0 22px}
+.side-nav{display:flex;flex-direction:column;gap:3px}
+@media(max-width:820px){.side-nav{flex-flow:row wrap;gap:6px 16px}}
+.side-nav a{font-family:var(--mono);font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink-soft);padding:7px 11px;margin:0 -11px;border-radius:7px;cursor:pointer;
+  transition:all .18s;display:flex;align-items:center;gap:10px;width:max-content}
+.side-nav a::before{content:"";width:7px;height:7px;border:1.5px solid var(--ink-faint);border-radius:50%;transition:all .18s;flex:none}
+.side-nav a:hover{color:var(--ink);background:rgba(255,90,54,.10)}
+.side-nav a:hover::before{border-color:var(--coral)}
+.side-nav a.on{color:var(--blue)}
+.side-nav a.on::before{background:var(--blue);border-color:var(--blue)}
+.side-nav .hal-link{color:var(--coral)}
+.side-nav .hal-link::before{border-color:var(--coral);border-style:dashed}
+.webring{margin-top:auto;padding-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  color:var(--ink-soft);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.webring a{text-decoration:none;color:var(--blue);font-size:16px;line-height:1}
+.webring a:hover{color:var(--coral)}
+.webring .wlabel{text-transform:uppercase}
+@media(max-width:820px){.webring{margin-top:18px}}
+
+/* ---- ZONE DE CONTENU : dégradé léger et animé, dans les tons du fond ---- */
+.content{position:relative;display:flex;flex-direction:column;padding:54px 60px 80px;min-height:100vh;
+  background-color:var(--bg);
+  animation:warm 3.2s ease forwards}
+/* à l'ouverture de chaque page : on part du fond de base et on se réchauffe
+   jusqu'au ton de la barre latérale (--warm) */
+@keyframes warm{from{background-color:var(--bg)}to{background-color:var(--warm)}}
+@media(max-width:820px){.content{padding:34px 26px 70px;min-height:auto}}
+
+.lang{position:absolute;top:32px;right:54px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  display:flex;gap:7px;align-items:center;color:var(--ink-faint)}
+@media(max-width:820px){.lang{position:static;margin-bottom:20px}}
+.lang button{background:none;border:none;font:inherit;color:var(--ink-faint);cursor:pointer;padding:2px 0}
+.lang button:hover{color:var(--ink)}
+.lang button.on{color:var(--coral);border-bottom:2px solid var(--coral)}
+
+.pages{flex:1 0 auto}
+.page{display:none;max-width:720px}
+#p-about{max-width:920px}
+.page.on{display:block;animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,4.4vw,46px);line-height:1.05;
+  letter-spacing:-.02em;margin-bottom:22px}
+h1 .wave{color:var(--coral)}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.6vw,25px);line-height:1.1;
+  color:var(--blue);margin:38px 0 14px;display:flex;align-items:center;gap:13px;letter-spacing:-.01em}
+h2::before{content:"";width:26px;height:5px;background:var(--blue);border-radius:3px;flex:none}
+h3{font-weight:600;font-size:18px;margin-bottom:2px}
+p{margin-bottom:15px}
+p a,li a,.lk{color:var(--blue);text-decoration:none;cursor:pointer;
+  background:linear-gradient(var(--coral),var(--coral)) no-repeat;background-size:0% 2px;background-position:0 100%;
+  transition:background-size .25s,color .2s;padding-bottom:1px}
+p a:hover,li a:hover,.lk:hover{color:var(--coral);background-size:100% 2px}
+ul{margin:10px 0 16px;padding-left:0;list-style:none}
+li{margin-bottom:9px;padding-left:26px;position:relative}
+li::before{content:"→";position:absolute;left:0;color:var(--coral);font-family:var(--mono)}
+em,.it{font-style:italic}.muted{color:var(--ink-soft);font-size:15px}b,strong{font-weight:600}
+
+/* ---- ACCUEIL : trois colonnes (menu · texte · photo) ---- */
+.about-grid{display:flex;gap:64px;align-items:flex-start}
+.about-text{flex:1 1 0;min-width:0;max-width:480px}
+@media(max-width:760px){.about-grid{flex-direction:column-reverse;gap:26px}.about-text{max-width:none}}
+.card{flex:none;width:168px;text-align:center;margin-left:auto}
+.avatar{width:152px;height:152px;border-radius:50%;margin:0 auto 14px;overflow:hidden;border:2.5px solid var(--blue);
+  background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:42px;color:var(--ink)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.socials{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.socials a{color:var(--ink-soft);display:inline-flex}.socials a:hover{color:var(--blue)}
+.socials svg{width:20px;height:20px;display:block}
+
+.cvrow{display:flex;gap:16px;padding:13px 0;border-top:1px solid var(--line)}
+.cvrow:last-of-type{border-bottom:1px solid var(--line)}
+.cvrow .yr{font-family:var(--mono);font-size:13px;color:var(--blue);white-space:nowrap;padding-top:2px;min-width:64px}
+
+footer{font-family:var(--mono);font-size:12px;color:var(--ink-faint);padding:24px 0 0;margin-top:46px;
+  border-top:1px solid var(--ink-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer a{color:var(--ink-soft);text-decoration:none}footer a:hover{color:var(--coral)}
+
+.en{display:none}body.lang-en .fr{display:none}body.lang-en .en{display:initial}
+
+/* ===================== PAGE HAL ===================== */
+#hal{display:none}
+body.hal-view{background:#F4ECD6;color:#1b1714}
+.hal-wrap{max-width:760px;margin:0 auto;padding:30px 26px 90px}
+.hal-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:13px;letter-spacing:.04em;gap:14px;flex-wrap:wrap}
+.hal-back{color:#1b1714;text-decoration:none;border:1px solid #1b1714;padding:7px 14px;border-radius:99px;transition:all .2s}
+.hal-back:hover{background:#1b1714;color:#F4ECD6}
+.hal-top .lang{position:static}.hal-top .lang button{color:#8a8076}.hal-top .lang button.on{color:#C8401F;border-color:#C8401F}
+.hal-badge{color:#C8401F}
+.hal-hero{margin:48px 0 30px;text-align:center}
+.hal-kicker{font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:#1f5c4d;margin-bottom:18px}
+.hal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(46px,11vw,92px);line-height:.92;letter-spacing:-.03em;color:#1b1714}
+.hal-title .pop{color:#C8401F;display:inline-block}.hal-title .pop2{color:#1f5c4d}
+.hal-sub{font-family:var(--serif);font-size:19px;max-width:42ch;margin:22px auto 0;color:#473f38;line-height:1.6}
+.hal-stage{margin:46px auto 0;max-width:560px;border:2.5px solid #1b1714;border-radius:18px;background:#FBF6EA;padding:34px 30px;box-shadow:9px 9px 0 #1b1714;position:relative}
+.dice{font-size:46px;text-align:center;transition:transform .6s cubic-bezier(.2,1.4,.4,1)}.dice.spin{transform:rotate(720deg) scale(1.1)}
+.hal-result{margin-top:22px;min-height:96px}.hal-result .placeholder{font-family:var(--mono);color:#8a8076;text-align:center;font-size:14px;padding-top:24px}
+.doc-type{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#C8401F;margin-bottom:8px}
+.doc-title{font-family:var(--display);font-weight:600;font-size:23px;line-height:1.2;color:#1b1714;margin-bottom:8px}
+.doc-title a{color:inherit;text-decoration:none;border-bottom:2px solid #f0c34a}.doc-title a:hover{border-color:#C8401F}
+.doc-authors{font-family:var(--serif);font-style:italic;color:#5a5149;font-size:16px}
+.hal-controls{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-top:30px}
+.hal-select{font-family:var(--mono);font-size:13px;background:#FBF6EA;border:2px solid #1b1714;border-radius:99px;padding:11px 16px;color:#1b1714;cursor:pointer}
+.pioche{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;background:#C8401F;color:#FBF6EA;border:2.5px solid #1b1714;border-radius:99px;padding:13px 30px;cursor:pointer;box-shadow:4px 4px 0 #1b1714;transition:all .12s}
+.pioche:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 #1b1714}.pioche:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #1b1714}
+.pioche:disabled{opacity:.55;cursor:wait;box-shadow:2px 2px 0 #1b1714;transform:none}
+.hal-note{text-align:center;font-family:var(--mono);font-size:12px;color:#8a8076;margin-top:34px;line-height:1.7}.hal-note a{color:#1f5c4d}
+.confetti{position:fixed;top:-10px;width:9px;height:14px;z-index:5;pointer-events:none}
+</style>
+</head>
+<body>
+
+<main id="site">
+  <aside class="side">
+    <a class="brand" data-page="about">Pierre<br>Andrews</a>
+    <hr class="side-sep">
+    <nav class="side-nav">
+      <a data-page="about" class="on" data-i18n="navAbout"></a>
+      <a data-page="recherche" data-i18n="navRech"></a>
+      <a data-page="enseignement" data-i18n="navTeach"></a>
+      <a data-page="cv">CV</a>
+      <a data-page="hal" class="hal-link">HAL Add-on</a>
+    </nav>
+    <div class="webring">
+      <a href="#" title="site précédent" aria-label="précédent">←</a>
+      <span class="wlabel" data-i18n="webring"></span>
+      <a href="#" title="site suivant" aria-label="suivant">→</a>
+    </div>
+  </aside>
+
+  <div class="content">
+    <div class="lang"><button data-l="fr">FR</button><span>·</span><button data-l="en" class="on">EN</button></div>
+
+    <div class="pages">
+    <!-- À PROPOS (accueil) — trois colonnes -->
+    <section class="page on" id="p-about">
+      <div class="about-grid">
+        <div class="about-text">
+          <h1><span class="fr">Bonjour</span><span class="en">Hello</span> <span class="wave">~</span></h1>
+          <p data-i18n="introP1"></p>
+          <p data-i18n="introP2"></p>
+          <p data-i18n="introP3"></p>
+        </div>
+        <aside class="card">
+          <div class="avatar"><img src="photo.png" alt="Pierre Andrews"></div>
+          <div class="socials">
+            <a href="https://x.com/PierreAndrews3" target="_blank" rel="noopener" title="Twitter/X" aria-label="Twitter/X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 2H21l-6.7 7.6L22 22h-6.9l-5.4-7-6.2 7H1l7.2-8.2L1.3 2h6.9l4.9 6.5L18.3 2zm-2.4 18h1.9L8.2 4H6.2l9.7 16z"/></svg></a>
+            <a href="https://scholar.google.com/citations?user=-bZ-3c8AAAAJ&hl=fr&oi=sra" target="_blank" rel="noopener" title="Google Scholar" aria-label="Scholar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2V17l7 3.8 7-3.8v-3.8l-7 3.8-7-3.8z"/></svg></a>
+            <a href="https://www.linkedin.com/in/pierre-andrews-46223a144/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg></a>
+            <a href="mailto:pierre.andrews@assas-universite.org" title="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- RECHERCHE -->
+    <section class="page" id="p-recherche">
+      <h1 data-i18n="tRech"></h1>
+      <h2 data-i18n="hInterests"></h2>
+      <p data-i18n="interestsLead"></p>
+      <div data-i18n="interestsList"></div>
+      <h2 data-i18n="hPub"></h2>
+      <p data-i18n="pub1"></p>
+      <p data-i18n="pub2"></p>
+      <p data-i18n="pub3"></p>
+    </section>
+
+    <!-- ENSEIGNEMENT -->
+    <section class="page" id="p-enseignement">
+      <h1 data-i18n="tTeach"></h1>
+      <p data-i18n="teachP"></p>
+    </section>
+
+    <!-- CV -->
+    <section class="page" id="p-cv">
+      <h1>CV</h1>
+      <p data-i18n="cvIntro"></p>
+      <div data-i18n="cvList"></div>
+      <p style="margin-top:18px"><a href="#" class="lk" id="cvLink" data-i18n="cvDownload"></a></p>
+      <!-- ⚠️ Remplacer href="#" ci-dessus par le lien Google Drive du CV (id="cvLink") -->
+    </section>
+
+    </div><!-- /.pages -->
+
+    <footer>
+      <span>© <span id="year"></span> Pierre Andrews</span>
+      <span data-i18n="footRight"></span>
+    </footer>
+  </div>
+</main>
+
+<!-- ===================== PAGE HAL ===================== -->
+<div id="hal">
+  <div class="hal-wrap">
+    <div class="hal-top">
+      <a class="hal-back" id="backSite" data-i18n="halBack"></a>
+      <div style="display:flex;gap:16px;align-items:center">
+        <div class="lang"><button data-l="fr">FR</button><span>·</span><button data-l="en" class="on">EN</button></div>
+        <span class="hal-badge" data-i18n="halBadge"></span>
+      </div>
+    </div>
+    <div class="hal-hero">
+      <div class="hal-kicker" data-i18n="halKicker"></div>
+      <h1 class="hal-title">HAL <span class="pop fr">au</span><span class="pop en">at</span><br><span class="pop2 fr">hasard</span><span class="pop2 en">random</span> 🎲</h1>
+      <p class="hal-sub" data-i18n="halSub"></p>
+    </div>
+    <div class="hal-stage">
+      <div class="dice" id="dice">🎲</div>
+      <div class="hal-result" id="result"><div class="placeholder" data-i18n="halPlaceholder"></div></div>
+      <div class="hal-controls">
+        <select class="hal-select" id="docType">
+          <option value="" data-i18n="optAll"></option><option value="ART" data-i18n="optArt"></option>
+          <option value="THESE" data-i18n="optThese"></option><option value="COMM" data-i18n="optComm"></option>
+          <option value="OUV" data-i18n="optOuv"></option><option value="REPORT" data-i18n="optReport"></option>
+        </select>
+        <button class="pioche" id="pioche" data-i18n="halDraw"></button>
+      </div>
+    </div>
+    <p class="hal-note" data-i18n="halNote"></p>
+  </div>
+</div>
+
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+const MAIL="pierre.andrews@assas-universite.org";
+const SSRN="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6535278";
+const I={
+ en:{
+  navAbout:"About", navRech:"Research", navTeach:"Teaching", webring:"webring",
+  introP1:"Welcome. I am a PhD candidate (CIFRE) at <a href='https://lemma.assas-universite.fr/fr' target='_blank' rel='noopener'>LEMMA</a> and Rexecode, Université Paris Panthéon-Assas, under the supervision of <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> and Olivier Redoulès.",
+  introP2:"I work extensively with firm-level data to study how companies adapt to shocks — in particular the shift to <em>remote work</em> and the diffusion of the <em>internet</em> — and how these adjustments reshape organizations and trade patterns.",
+  introP3:"I also work on the <em>economics of fashion</em>, combining an international-trade angle (internet adoption) with a fiscal one (the economics of \"made in France\"). I am open to collaborations — <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  tRech:"Research", hInterests:"Interests", interestsLead:"My work focuses in particular on:",
+  interestsList:"<ul><li><b>Labor economics</b>: firm-level adaptation to shocks, remote work</li><li><b>Organizational economics</b>: restructuring of the firm, internet adoption</li><li><b>International economics</b>: trade, internet roll-out and deindustrialisation</li><li><b>Economics of fashion</b>: trade &amp; fiscal angles on \"made in France\"</li></ul>",
+  hPub:"Publications &amp; work",
+  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b> — <a href='"+SSRN+"' target='_blank' rel='noopener'>SSRN working paper</a>.",
+  pub2:"<b>To made or not to made: The social returns of made in France</b> — documents the tax revenue generated by \"made in France\" labelling, as a compensator for the price premium relative to imported goods. <span class='muted'>(work in progress)</span>",
+  pub3:"<b>Deindustrialisation of the textile and apparel industry: an internet roll-out story</b> <span class='muted'>(work in progress)</span>",
+  tTeach:"Teaching", teachP:"Teaching assistant (TD) — Public Policy Evaluation, course by José De Sousa.", teachNote:"",
+  cvIntro:"Background, in short:",
+  cvList:"<div class='cvrow'><span class='yr'>Now</span><span><b>PhD</b> in Economics (CIFRE) · LEMMA &amp; Rexecode, Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Work-study</b> (alternance) · Rexecode</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L3</b> Economics · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L1-L2</b> Economics &amp; Management · Université de Rouen</span></div>",
+  cvDownload:"↓ Download full CV (PDF)",
+  footRight:"Made in Paris",
+  halBack:"← back to site", halBadge:"● browser extension", halKicker:"a not-serious project · open source",
+  halSub:"An extension that picks an article, a thesis or any document deposited on <strong>HAL</strong> at random. To wander through open science with no particular goal.",
+  halPlaceholder:"Pick a document type, then draw.",
+  optAll:"Any type", optArt:"Article", optThese:"Thesis", optComm:"Conference paper", optOuv:"Book", optReport:"Report", halDraw:"Draw!",
+  halNote:"Live demo on the <a href='https://api.archives-ouvertes.fr/' target='_blank' rel='noopener'>HAL API</a>.",
+  digging:"Digging through the archives…"
+ },
+ fr:{
+  navAbout:"À propos", navRech:"Recherche", navTeach:"Enseignement", webring:"webring",
+  introP1:"Bienvenue. Je suis doctorant CIFRE au <a href='https://lemma.assas-universite.fr/fr' target='_blank' rel='noopener'>LEMMA</a> et à Rexecode, Université Paris Panthéon-Assas, sous la direction de <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> et Olivier Redoulès.",
+  introP2:"Je travaille beaucoup à partir de données d'entreprise sur l'adaptation des entreprises à des chocs — notamment le <em>télétravail</em> et l'adoption d'<em>internet</em> — et sur la manière dont ces ajustements transforment les organisations et les échanges internationaux.",
+  introP3:"Je travaille aussi sur l'<em>économie de la mode</em>, avec un angle commerce international (adoption d'internet) et un angle fiscal (économie du « made in France »). Je suis ouvert aux collaborations — <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  tRech:"Recherche", hInterests:"Mes thèmes", interestsLead:"Mes travaux portent notamment sur :",
+  interestsList:"<ul><li><b>Économie du travail</b> : adaptation des entreprises aux chocs, télétravail</li><li><b>Économie des organisations</b> : restructuration de l'entreprise, adoption d'internet</li><li><b>Économie internationale</b> : commerce, diffusion d'internet et désindustrialisation</li><li><b>Économie de la mode</b> : angles commercial et fiscal du « made in France »</li></ul>",
+  hPub:"Publications &amp; travaux",
+  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b> — <a href='"+SSRN+"' target='_blank' rel='noopener'>document de travail SSRN</a>.",
+  pub2:"<b>To made or not to made : Les retours sociaux du made in France</b> — je documente les recettes fiscales inhérentes au « made in France » comme compensateur du surplus de prix vis-à-vis des biens importés. <span class='muted'>(travail en cours)</span>",
+  pub3:"<b>Désindustrialisation of textile and apparel industry: an internet rollout story</b> <span class='muted'>(travail en cours)</span>",
+  tTeach:"Enseignement", teachP:"Chargé de TD — Évaluation des politiques publiques, cours de José De Sousa.", teachNote:"",
+  cvIntro:"Parcours, en bref :",
+  cvList:"<div class='cvrow'><span class='yr'>Actuel</span><span><b>Doctorat</b> en économie (CIFRE) · LEMMA &amp; Rexecode, Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Alternance</b> · Rexecode</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L3</b> Économie · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L1-L2</b> Éco-gestion · Université de Rouen</span></div>",
+  cvDownload:"↓ Télécharger le CV complet (PDF)",
+  footRight:"Fait à Paris",
+  halBack:"← retour au site", halBadge:"● extension navigateur", halKicker:"un projet pas sérieux · open source",
+  halSub:"Une extension qui pioche au pif un article, une thèse ou n'importe quel document déposé sur <strong>HAL</strong>. Pour flâner dans la science ouverte sans but précis.",
+  halPlaceholder:"Choisis un type de document, puis pioche.",
+  optAll:"Tout type", optArt:"Article", optThese:"Thèse", optComm:"Communication", optOuv:"Ouvrage", optReport:"Rapport", halDraw:"Pioche !",
+  halNote:"Démo en direct sur l'<a href='https://api.archives-ouvertes.fr/' target='_blank' rel='noopener'>API HAL</a>.",
+  digging:"On fouille les archives…"
+ }
+};
+let lang='en';
+function setLang(l){lang=l;document.documentElement.lang=l;document.body.classList.toggle('lang-en',l==='en');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(I[l][k]!==undefined)el.innerHTML=I[l][k];});
+  document.querySelectorAll('[data-l]').forEach(b=>b.classList.toggle('on',b.dataset.l===l));}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(b)setLang(b.dataset.l);});
+setLang('en');
+
+const site=document.getElementById('site'), hal=document.getElementById('hal');
+const navItems=[...document.querySelectorAll('.side-nav a')];
+function showPage(p){if(p==='hal'){showHal();return;}
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('on'));
+  const sec=document.getElementById('p-'+p);if(sec)sec.classList.add('on');
+  navItems.forEach(a=>a.classList.toggle('on',a.dataset.page===p));
+  const c=document.querySelector('.content');c.style.animation='none';void c.offsetWidth;c.style.animation='';
+  scrollTo(0,0);}
+function showHal(){site.style.display='none';hal.style.display='block';document.body.classList.add('hal-view');scrollTo(0,0);}
+function showSite(){hal.style.display='none';site.style.display='grid';document.body.classList.remove('hal-view');showPage('about');}
+document.addEventListener('click',e=>{const nav=e.target.closest('[data-page]');if(nav){e.preventDefault();showPage(nav.dataset.page);return;}
+  const a=e.target.closest('a');if(a&&a.id==='backSite'){e.preventDefault();showSite();}});
+
+const fallback=[{type:'Article',title:"Trust in Numbers: la quantification comme technologie de confiance",authors:"T. Porter"},
+  {type:'Thèse',title:"Mesurer le droit : indicateurs, gouvernance et comparaison internationale",authors:"—"},
+  {type:'Communication',title:"Persuasion bayésienne et divulgation stratégique d'information",authors:"E. Kamenica, M. Gentzkow"}];
+const btn=document.getElementById('pioche'),dice=document.getElementById('dice'),resBox=document.getElementById('result'),typeSel=document.getElementById('docType');
+async function pioche(){btn.disabled=true;dice.classList.add('spin');resBox.innerHTML='<div class="placeholder">'+I[lang].digging+'</div>';let doc=null;
+  try{const filter=typeSel.value?'&fq=docType_s:'+typeSel.value:'';
+    const head=await fetch('https://api.archives-ouvertes.fr/search/?q=*:*'+filter+'&rows=0&wt=json');const hn=await head.json();
+    const total=Math.min(hn.response.numFound||1,100000);const start=Math.floor(Math.random()*total);
+    const r=await fetch('https://api.archives-ouvertes.fr/search/?q=*:*'+filter+'&rows=1&start='+start+'&fl=title_s,authFullName_s,docType_s,uri_s&wt=json');
+    const d=await r.json();const it=d.response.docs[0];
+    doc={type:it.docType_s||'Document',title:Array.isArray(it.title_s)?it.title_s[0]:(it.title_s||'Sans titre'),authors:(it.authFullName_s||[]).slice(0,3).join(', ')||'—',uri:it.uri_s||null};
+  }catch(e){doc=fallback[Math.floor(Math.random()*fallback.length)];}
+  setTimeout(()=>{const link=doc.uri?'<a href="'+doc.uri+'" target="_blank" rel="noopener">'+doc.title+'</a>':doc.title;
+    resBox.innerHTML='<div class="doc-type">'+doc.type+'</div><div class="doc-title">'+link+'</div><div class="doc-authors">'+doc.authors+'</div>';
+    dice.classList.remove('spin');btn.disabled=false;party();},650);}
+btn.addEventListener('click',pioche);
+function party(){const colors=['#C8401F','#1f5c4d','#f0c34a','#1b1714'];for(let i=0;i<16;i++){const c=document.createElement('div');c.className='confetti';
+  c.style.left=Math.random()*100+'vw';c.style.background=colors[i%colors.length];c.style.transform='rotate('+Math.random()*360+'deg)';document.body.appendChild(c);
+  c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:.9}],{duration:1100+Math.random()*700,easing:'cubic-bezier(.3,.6,.4,1)'}).onfinish=()=>c.remove();}}
+</script>
+</body>
+</html>
