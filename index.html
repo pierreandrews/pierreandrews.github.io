@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pierre Andrews</title>
 <link rel="icon" type="image/svg+xml" href="bob.svg">
-<meta name="description" content="Pierre Andrews — PhD Candidate, LEMMA &amp; Rexecode, Université Paris Panthéon-Assas.">
+<meta name="description" content="Pierre Andrews, PhD Candidate, LEMMA (Université Paris Panthéon-Assas) &amp; Rexecode.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -166,9 +166,9 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
       <a data-page="hal" class="hal-link">HAL Add-on</a>
     </nav>
     <div class="webring">
-      <a href="#" title="site précédent" aria-label="précédent">←</a>
+      <a href="#" id="webringPrev" title="site précédent" aria-label="précédent">←</a>
       <span class="wlabel" data-i18n="webring"></span>
-      <a href="#" title="site suivant" aria-label="suivant">→</a>
+      <a href="#" id="webringNext" title="site suivant" aria-label="suivant">→</a>
     </div>
   </aside>
 
@@ -176,7 +176,7 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
     <div class="lang"><button data-l="fr">FR</button><span>·</span><button data-l="en" class="on">EN</button></div>
 
     <div class="pages">
-    <!-- À PROPOS (accueil) — trois colonnes -->
+    <!-- À PROPOS (accueil), trois colonnes -->
     <section class="page on" id="p-about">
       <div class="about-grid">
         <div class="about-text">
@@ -184,6 +184,8 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
           <p data-i18n="introP1"></p>
           <p data-i18n="introP2"></p>
           <p data-i18n="introP3"></p>
+          <h2 data-i18n="hNews"></h2>
+          <div data-i18n="newsList"></div>
         </div>
         <aside class="card">
           <div class="avatar"><img src="photo.png" alt="Pierre Andrews"></div>
@@ -266,25 +268,44 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
 
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
+
+/* ---- WEBRING ----
+   Liste des sites du webring. Pour l'instant : le site de Paul Maarek.
+   Pour en ajouter, il suffit de rajouter une URL dans ce tableau. */
+const WEBRING=[
+  "https://sites.google.com/site/paulmaarek2/"
+  // ajouter d'autres liens ici, ex: "https://exemple.com"
+];
+let webringIndex=0;
+function webringGo(dir){
+  if(!WEBRING.length)return;
+  webringIndex=(webringIndex+dir+WEBRING.length)%WEBRING.length;
+  window.open(WEBRING[webringIndex],'_blank','noopener');
+}
+document.getElementById('webringPrev').addEventListener('click',e=>{e.preventDefault();webringGo(-1);});
+document.getElementById('webringNext').addEventListener('click',e=>{e.preventDefault();webringGo(1);});
+
 const MAIL="pierre.andrews@assas-universite.org";
 const SSRN="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6535278";
 const I={
  en:{
   navAbout:"About", navRech:"Research", navTeach:"Teaching", webring:"webring",
-  introP1:"Welcome. I am a PhD candidate (CIFRE) at <a href='https://lemma.assas-universite.fr/fr' target='_blank' rel='noopener'>LEMMA</a> and Rexecode, Université Paris Panthéon-Assas, under the supervision of <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> and Olivier Redoulès.",
-  introP2:"I work extensively with firm-level data to study how companies adapt to shocks — in particular the shift to <em>remote work</em> and the diffusion of the <em>internet</em> — and how these adjustments reshape organizations and trade patterns.",
-  introP3:"I also work on the <em>economics of fashion</em>, combining an international-trade angle (internet adoption) with a fiscal one (the economics of \"made in France\"). I am open to collaborations — <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  introP1:"Welcome. I am a PhD candidate at LEMMA, a research lab of Université Paris Panthéon-Assas, and at Rexecode, under the supervision of <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> and Olivier Redoulès.",
+  introP2:"I work extensively with firm-level data to study how companies adapt to shocks, in particular the shift to <em>remote work</em> and the diffusion of the <em>internet</em>, and how these adjustments reshape organizations and trade patterns.",
+  introP3:"I also work on the <em>economics of fashion</em>, combining an international-trade angle (internet adoption) with a fiscal one (the economics of \"made in France\"). I am open to collaborations: <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  hNews:"News",
+  newsList:"<ul><li>Presented \"Remote work and the restructuring of the firm: Evidence from collective agreements\" at the LAGV conference and the Royal Economic Society (RES) Annual Conference</li><li>Upcoming presentation at the AIEL conference in September</li></ul>",
   tRech:"Research", hInterests:"Interests", interestsLead:"My work focuses in particular on:",
   interestsList:"<ul><li><b>Labor economics</b>: firm-level adaptation to shocks, remote work</li><li><b>Organizational economics</b>: restructuring of the firm, internet adoption</li><li><b>International economics</b>: trade, internet roll-out and deindustrialisation</li><li><b>Economics of fashion</b>: trade &amp; fiscal angles on \"made in France\"</li></ul>",
   hPub:"Publications &amp; work",
-  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b> — <a href='"+SSRN+"' target='_blank' rel='noopener'>SSRN working paper</a>.",
-  pub2:"<b>To made or not to made: The social returns of made in France</b> — documents the tax revenue generated by \"made in France\" labelling, as a compensator for the price premium relative to imported goods. <span class='muted'>(work in progress)</span>",
+  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b>: <a href='"+SSRN+"' target='_blank' rel='noopener'>SSRN working paper</a>.",
+  pub2:"<b>To made or not to made: The social returns of made in France</b>: documents the tax revenue generated by \"made in France\" labelling, as a compensator for the price premium relative to imported goods. <span class='muted'>(work in progress)</span>",
   pub3:"<b>Deindustrialisation of the textile and apparel industry: an internet roll-out story</b> <span class='muted'>(work in progress)</span>",
-  tTeach:"Teaching", teachP:"Teaching assistant (TD) — Public Policy Evaluation, course by José De Sousa.", teachNote:"",
+  tTeach:"Teaching", teachP:"Teaching assistant (TD), Public Policy Evaluation, course by José De Sousa.", teachNote:"",
   cvIntro:"Background, in short:",
-  cvList:"<div class='cvrow'><span class='yr'>Now</span><span><b>PhD</b> in Economics (CIFRE) · LEMMA &amp; Rexecode, Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Work-study</b> (alternance) · Rexecode</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L3</b> Economics · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L1-L2</b> Economics &amp; Management · Université de Rouen</span></div>",
+  cvList:"<div class='cvrow'><span class='yr'>Now</span><span><b>PhD</b> in Economics · LEMMA (Université Paris Panthéon-Assas) &amp; Rexecode</span></div><div class='cvrow'><span class='yr'>-</span><span><b>Work-study</b> (alternance) · Rexecode</span></div><div class='cvrow'><span class='yr'>-</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>-</span><span><b>L3</b> Economics · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>-</span><span><b>L1-L2</b> Economics &amp; Management · Université de Rouen</span></div>",
   cvDownload:"↓ Download full CV (PDF)",
-  footRight:"Made in Paris",
+  footRight:"Made in Paris · Design by Octavien Maury",
   halBack:"← back to site", halBadge:"● browser extension", halKicker:"a not-serious project · open source",
   halSub:"An extension that picks an article, a thesis or any document deposited on <strong>HAL</strong> at random. To wander through open science with no particular goal.",
   halPlaceholder:"Pick a document type, then draw.",
@@ -294,20 +315,22 @@ const I={
  },
  fr:{
   navAbout:"À propos", navRech:"Recherche", navTeach:"Enseignement", webring:"webring",
-  introP1:"Bienvenue. Je suis doctorant CIFRE au <a href='https://lemma.assas-universite.fr/fr' target='_blank' rel='noopener'>LEMMA</a> et à Rexecode, Université Paris Panthéon-Assas, sous la direction de <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> et Olivier Redoulès.",
-  introP2:"Je travaille beaucoup à partir de données d'entreprise sur l'adaptation des entreprises à des chocs — notamment le <em>télétravail</em> et l'adoption d'<em>internet</em> — et sur la manière dont ces ajustements transforment les organisations et les échanges internationaux.",
-  introP3:"Je travaille aussi sur l'<em>économie de la mode</em>, avec un angle commerce international (adoption d'internet) et un angle fiscal (économie du « made in France »). Je suis ouvert aux collaborations — <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  introP1:"Bienvenue. Je suis doctorant au LEMMA, laboratoire de l'Université Paris Panthéon-Assas, et à Rexecode, sous la direction de <a href='https://sites.google.com/site/paulmaarek2/' target='_blank' rel='noopener'>Paul Maarek</a> et Olivier Redoulès.",
+  introP2:"Je travaille beaucoup à partir de données d'entreprise sur l'adaptation des entreprises à des chocs, notamment le <em>télétravail</em> et l'adoption d'<em>internet</em>, et sur la manière dont ces ajustements transforment les organisations et les échanges internationaux.",
+  introP3:"Je travaille aussi sur l'<em>économie de la mode</em>, avec un angle commerce international (adoption d'internet) et un angle fiscal (économie du « made in France »). Je suis ouvert aux collaborations : <a href='mailto:"+MAIL+"'>"+MAIL+"</a>.",
+  hNews:"Actualités",
+  newsList:"<ul><li>Présentation de « Remote work and the restructuring of the firm: Evidence from collective agreements » à la conférence LAGV et à l'Annual Conference de la Royal Economic Society (RES)</li><li>Présentation à venir à la conférence AIEL en septembre</li></ul>",
   tRech:"Recherche", hInterests:"Mes thèmes", interestsLead:"Mes travaux portent notamment sur :",
   interestsList:"<ul><li><b>Économie du travail</b> : adaptation des entreprises aux chocs, télétravail</li><li><b>Économie des organisations</b> : restructuration de l'entreprise, adoption d'internet</li><li><b>Économie internationale</b> : commerce, diffusion d'internet et désindustrialisation</li><li><b>Économie de la mode</b> : angles commercial et fiscal du « made in France »</li></ul>",
   hPub:"Publications &amp; travaux",
-  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b> — <a href='"+SSRN+"' target='_blank' rel='noopener'>document de travail SSRN</a>.",
-  pub2:"<b>To made or not to made : Les retours sociaux du made in France</b> — je documente les recettes fiscales inhérentes au « made in France » comme compensateur du surplus de prix vis-à-vis des biens importés. <span class='muted'>(travail en cours)</span>",
+  pub1:"<b>Remote work and the restructuring of the firm: Evidence from collective agreements</b> : <a href='"+SSRN+"' target='_blank' rel='noopener'>document de travail SSRN</a>.",
+  pub2:"<b>To made or not to made : Les retours sociaux du made in France</b> : je documente les recettes fiscales inhérentes au « made in France » comme compensateur du surplus de prix vis-à-vis des biens importés. <span class='muted'>(travail en cours)</span>",
   pub3:"<b>Désindustrialisation of textile and apparel industry: an internet rollout story</b> <span class='muted'>(travail en cours)</span>",
-  tTeach:"Enseignement", teachP:"Chargé de TD — Évaluation des politiques publiques, cours de José De Sousa.", teachNote:"",
+  tTeach:"Enseignement", teachP:"Chargé de TD, Évaluation des politiques publiques, cours de José De Sousa.", teachNote:"",
   cvIntro:"Parcours, en bref :",
-  cvList:"<div class='cvrow'><span class='yr'>Actuel</span><span><b>Doctorat</b> en économie (CIFRE) · LEMMA &amp; Rexecode, Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Alternance</b> · Rexecode</span></div><div class='cvrow'><span class='yr'>—</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L3</b> Économie · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>—</span><span><b>L1-L2</b> Éco-gestion · Université de Rouen</span></div>",
+  cvList:"<div class='cvrow'><span class='yr'>Actuel</span><span><b>Doctorat</b> en économie · LEMMA (Université Paris Panthéon-Assas) &amp; Rexecode</span></div><div class='cvrow'><span class='yr'>-</span><span><b>Alternance</b> · Rexecode</span></div><div class='cvrow'><span class='yr'>-</span><span><b>Master APE</b> (Analyse et Politique Économique) · Université Paris Panthéon-Assas</span></div><div class='cvrow'><span class='yr'>-</span><span><b>L3</b> Économie · Université Paris 1 Panthéon-Sorbonne</span></div><div class='cvrow'><span class='yr'>-</span><span><b>L1-L2</b> Éco-gestion · Université de Rouen</span></div>",
   cvDownload:"↓ Télécharger le CV complet (PDF)",
-  footRight:"Fait à Paris",
+  footRight:"Fait à Paris · Design par Octavien Maury",
   halBack:"← retour au site", halBadge:"● extension navigateur", halKicker:"un projet pas sérieux · open source",
   halSub:"Une extension qui pioche au pif un article, une thèse ou n'importe quel document déposé sur <strong>HAL</strong>. Pour flâner dans la science ouverte sans but précis.",
   halPlaceholder:"Choisis un type de document, puis pioche.",
@@ -337,7 +360,7 @@ document.addEventListener('click',e=>{const nav=e.target.closest('[data-page]');
   const a=e.target.closest('a');if(a&&a.id==='backSite'){e.preventDefault();showSite();}});
 
 const fallback=[{type:'Article',title:"Trust in Numbers: la quantification comme technologie de confiance",authors:"T. Porter"},
-  {type:'Thèse',title:"Mesurer le droit : indicateurs, gouvernance et comparaison internationale",authors:"—"},
+  {type:'Thèse',title:"Mesurer le droit : indicateurs, gouvernance et comparaison internationale",authors:"N/A"},
   {type:'Communication',title:"Persuasion bayésienne et divulgation stratégique d'information",authors:"E. Kamenica, M. Gentzkow"}];
 const btn=document.getElementById('pioche'),dice=document.getElementById('dice'),resBox=document.getElementById('result'),typeSel=document.getElementById('docType');
 async function pioche(){btn.disabled=true;dice.classList.add('spin');resBox.innerHTML='<div class="placeholder">'+I[lang].digging+'</div>';let doc=null;
@@ -346,7 +369,7 @@ async function pioche(){btn.disabled=true;dice.classList.add('spin');resBox.inne
     const total=Math.min(hn.response.numFound||1,100000);const start=Math.floor(Math.random()*total);
     const r=await fetch('https://api.archives-ouvertes.fr/search/?q=*:*'+filter+'&rows=1&start='+start+'&fl=title_s,authFullName_s,docType_s,uri_s&wt=json');
     const d=await r.json();const it=d.response.docs[0];
-    doc={type:it.docType_s||'Document',title:Array.isArray(it.title_s)?it.title_s[0]:(it.title_s||'Sans titre'),authors:(it.authFullName_s||[]).slice(0,3).join(', ')||'—',uri:it.uri_s||null};
+    doc={type:it.docType_s||'Document',title:Array.isArray(it.title_s)?it.title_s[0]:(it.title_s||'Sans titre'),authors:(it.authFullName_s||[]).slice(0,3).join(', ')||'N/A',uri:it.uri_s||null};
   }catch(e){doc=fallback[Math.floor(Math.random()*fallback.length)];}
   setTimeout(()=>{const link=doc.uri?'<a href="'+doc.uri+'" target="_blank" rel="noopener">'+doc.title+'</a>':doc.title;
     resBox.innerHTML='<div class="doc-type">'+doc.type+'</div><div class="doc-title">'+link+'</div><div class="doc-authors">'+doc.authors+'</div>';
