@@ -80,6 +80,7 @@ a{color:inherit}
 .pages{flex:1 0 auto}
 .page{display:none;max-width:720px}
 #p-about{max-width:920px}
+@media(min-width:821px){#p-about{margin:0 auto}.about-grid{justify-content:center}}
 .page.on{display:block;animation:fade .5s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
@@ -103,8 +104,10 @@ em,.it{font-style:italic}.muted{color:var(--ink-soft);font-size:15px}b,strong{fo
 /* ---- ACCUEIL : trois colonnes (menu · texte · photo) ---- */
 .about-grid{display:flex;gap:64px;align-items:flex-start}
 .about-text{flex:1 1 0;min-width:0;max-width:480px}
-@media(max-width:760px){.about-grid{flex-direction:column-reverse;gap:26px}.about-text{max-width:none}}
-.card{flex:none;width:168px;text-align:center;margin-left:auto}
+.side-col{flex:none;width:230px;display:flex;flex-direction:column;gap:32px}
+.side-col .news-box h2{margin-top:0}
+@media(max-width:760px){.about-grid{flex-direction:column-reverse;gap:26px}.about-text{max-width:none}.side-col{width:100%}}
+.card{flex:none;width:168px;text-align:center;margin:0 auto}
 .avatar{width:152px;height:152px;border-radius:50%;margin:0 auto 14px;overflow:hidden;border:2.5px solid var(--blue);
   background:var(--lime);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:42px;color:var(--ink)}
 .avatar img{width:100%;height:100%;object-fit:cover}
@@ -136,6 +139,11 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
 .hal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(46px,11vw,92px);line-height:.92;letter-spacing:-.03em;color:#1b1714}
 .hal-title .pop{color:#C8401F;display:inline-block}.hal-title .pop2{color:#1f5c4d}
 .hal-sub{font-family:var(--serif);font-size:19px;max-width:42ch;margin:22px auto 0;color:#473f38;line-height:1.6}
+.hal-credit{margin-top:20px;font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  color:#5a5149;display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.hal-credit::before{content:"●";color:#C8401F;font-size:10px}
+.hal-credit a{color:#1b1714;text-decoration:none;border-bottom:2px solid #f0c34a;padding-bottom:1px}
+.hal-credit a:hover{border-color:#C8401F;color:#C8401F}
 .hal-stage{margin:46px auto 0;max-width:560px;border:2.5px solid #1b1714;border-radius:18px;background:#FBF6EA;padding:34px 30px;box-shadow:9px 9px 0 #1b1714;position:relative}
 .dice{font-size:46px;text-align:center;transition:transform .6s cubic-bezier(.2,1.4,.4,1)}.dice.spin{transform:rotate(720deg) scale(1.1)}
 .hal-result{margin-top:22px;min-height:96px}.hal-result .placeholder{font-family:var(--mono);color:#8a8076;text-align:center;font-size:14px;padding-top:24px}
@@ -184,18 +192,22 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
           <p data-i18n="introP1"></p>
           <p data-i18n="introP2"></p>
           <p data-i18n="introP3"></p>
-          <h2 data-i18n="hNews"></h2>
-          <div data-i18n="newsList"></div>
         </div>
-        <aside class="card">
-          <div class="avatar"><img src="photo.png" alt="Pierre Andrews"></div>
-          <div class="socials">
-            <a href="https://x.com/PierreAndrews3" target="_blank" rel="noopener" title="Twitter/X" aria-label="Twitter/X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 2H21l-6.7 7.6L22 22h-6.9l-5.4-7-6.2 7H1l7.2-8.2L1.3 2h6.9l4.9 6.5L18.3 2zm-2.4 18h1.9L8.2 4H6.2l9.7 16z"/></svg></a>
-            <a href="https://scholar.google.com/citations?user=-bZ-3c8AAAAJ&hl=fr&oi=sra" target="_blank" rel="noopener" title="Google Scholar" aria-label="Scholar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2V17l7 3.8 7-3.8v-3.8l-7 3.8-7-3.8z"/></svg></a>
-            <a href="https://www.linkedin.com/in/pierre-andrews-46223a144/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg></a>
-            <a href="mailto:pierre.andrews@assas-universite.org" title="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg></a>
+        <div class="side-col">
+          <aside class="card">
+            <div class="avatar"><img src="photo.png" alt="Pierre Andrews"></div>
+            <div class="socials">
+              <a href="https://x.com/PierreAndrews3" target="_blank" rel="noopener" title="Twitter/X" aria-label="Twitter/X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 2H21l-6.7 7.6L22 22h-6.9l-5.4-7-6.2 7H1l7.2-8.2L1.3 2h6.9l4.9 6.5L18.3 2zm-2.4 18h1.9L8.2 4H6.2l9.7 16z"/></svg></a>
+              <a href="https://scholar.google.com/citations?user=-bZ-3c8AAAAJ&hl=fr&oi=sra" target="_blank" rel="noopener" title="Google Scholar" aria-label="Scholar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2V17l7 3.8 7-3.8v-3.8l-7 3.8-7-3.8z"/></svg></a>
+              <a href="https://www.linkedin.com/in/pierre-andrews-46223a144/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg></a>
+              <a href="mailto:pierre.andrews@assas-universite.org" title="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg></a>
+            </div>
+          </aside>
+          <div class="news-box">
+            <h2 data-i18n="hNews"></h2>
+            <div data-i18n="newsList"></div>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
 
@@ -248,6 +260,7 @@ body.hal-view{background:#F4ECD6;color:#1b1714}
       <div class="hal-kicker" data-i18n="halKicker"></div>
       <h1 class="hal-title">HAL <span class="pop fr">au</span><span class="pop en">at</span><br><span class="pop2 fr">hasard</span><span class="pop2 en">random</span> 🎲</h1>
       <p class="hal-sub" data-i18n="halSub"></p>
+      <div class="hal-credit"><span data-i18n="halCredit"></span></div>
     </div>
     <div class="hal-stage">
       <div class="dice" id="dice">🎲</div>
@@ -309,6 +322,7 @@ const I={
   halSub:"An extension that picks an article, a thesis or any document deposited on <strong>HAL</strong> at random. To wander through open science with no particular goal.",
   halPlaceholder:"Pick a document type, then draw.",
   optAll:"Any type", optArt:"Article", optThese:"Thesis", optComm:"Conference paper", optOuv:"Book", optReport:"Report", halDraw:"Draw!",
+  halCredit:"Built by <a href='https://www.linkedin.com/in/octavien-maury/' target='_blank' rel='noopener'>Octavien Maury</a>",
   halNote:"Live demo on the <a href='https://api.archives-ouvertes.fr/' target='_blank' rel='noopener'>HAL API</a>.",
   digging:"Digging through the archives…"
  },
@@ -334,6 +348,7 @@ const I={
   halSub:"Une extension qui pioche au pif un article, une thèse ou n'importe quel document déposé sur <strong>HAL</strong>. Pour flâner dans la science ouverte sans but précis.",
   halPlaceholder:"Choisis un type de document, puis pioche.",
   optAll:"Tout type", optArt:"Article", optThese:"Thèse", optComm:"Communication", optOuv:"Ouvrage", optReport:"Rapport", halDraw:"Pioche !",
+  halCredit:"Réalisé par <a href='https://www.linkedin.com/in/octavien-maury/' target='_blank' rel='noopener'>Octavien Maury</a>",
   halNote:"Démo en direct sur l'<a href='https://api.archives-ouvertes.fr/' target='_blank' rel='noopener'>API HAL</a>.",
   digging:"On fouille les archives…"
  }
